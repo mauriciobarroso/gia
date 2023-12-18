@@ -1,6 +1,6 @@
 /**
   ******************************************************************************
-  * @file           : gia.c
+  * @file           : sgia.c
   * @author         : Mauricio Barroso Benavides
   * @date           : Dec 17, 2023
   * @brief          : todo: write brief
@@ -33,26 +33,26 @@
   */
 
 /* Includes ------------------------------------------------------------------*/
-#include "gia.h"
+#include "sgia.h"
 
 #include "esp_log.h"
 
 /* Private macros ------------------------------------------------------------*/
-#define GIA_DEFAULT_COMPENSATION_HUM	0x8000;
-#define GIA_DEFAULT_COMPENSATION_TEMP	0x6666
+#define SGIA_DEFAULT_COMPENSATION_HUM	0x8000;
+#define SGIA_DEFAULT_COMPENSATION_TEMP	0x6666
 
 /* External variables --------------------------------------------------------*/
 
 /* Private typedef -----------------------------------------------------------*/
 
 /* Private variables ---------------------------------------------------------*/
-static const char *TAG = "gia";
+static const char *TAG = "sgia";
 
 /* Private function prototypes -----------------------------------------------*/
-static void gia_get_compesation_values(gia_t *const me, uint16_t *temp_comp, uint16_t *hum_comp);
+static void sgia_get_compesation_values(sgia_t *const me, uint16_t *temp_comp, uint16_t *hum_comp);
 
 /* Exported functions definitions --------------------------------------------*/
-esp_err_t gia_init(gia_t *const me, i2c_bus_t *i2c_bus) {
+esp_err_t sgia_init(sgia_t *const me, i2c_bus_t *i2c_bus) {
 	/* Variable to return error code */
 	esp_err_t ret = ESP_OK;
 
@@ -92,29 +92,29 @@ esp_err_t gia_init(gia_t *const me, i2c_bus_t *i2c_bus) {
 	return ret;
 }
 
-void gia_get_temp_and_hum(gia_t *const me, float *temp, float *hum) {
+void sgia_get_temp_and_hum(sgia_t *const me, float *temp, float *hum) {
 	*temp = me->temp;
 	*hum = me->hum;
 }
 
-void gia_get_raw_voc_and_nox(gia_t *const me, uint16_t *voc_raw, uint16_t *nox_raw) {
+void sgia_get_raw_voc_and_nox(sgia_t *const me, uint16_t *voc_raw, uint16_t *nox_raw) {
 	*voc_raw = me->voc_raw;
 	*nox_raw = me->nox_raw;
 }
 
-void gia_get_index_voc_and_nox(gia_t *const me, int32_t *voc_index, int32_t *nox_index) {
+void sgia_get_index_voc_and_nox(sgia_t *const me, int32_t *voc_index, int32_t *nox_index) {
 	*voc_index = me->voc_index;
 	*nox_index = me->nox_index;
 }
 
-esp_err_t gia_run(gia_t *const me) {
+esp_err_t sgia_run(sgia_t *const me) {
 	/* Variable to return error code */
 	esp_err_t ret = ESP_OK;
 
   /* Measure SHT4x  RH and T signals and convert to SGP41 ticks */
 	uint16_t temp_comp = 0;
 	uint16_t hum_comp = 0;
-	gia_get_compesation_values(me, &temp_comp, &hum_comp);
+	sgia_get_compesation_values(me, &temp_comp, &hum_comp);
 
 	/* Measure SGP41 raw values */
 	if (me->nox_conditioning > 0) {
@@ -141,12 +141,12 @@ esp_err_t gia_run(gia_t *const me) {
 }
 
 /* Private function definitions ----------------------------------------------*/
-static void gia_get_compesation_values(gia_t *const me, uint16_t *temp_comp, uint16_t *hum_comp) {
+static void sgia_get_compesation_values(sgia_t *const me, uint16_t *temp_comp, uint16_t *hum_comp) {
 	esp_err_t ret = sht4x_measure_high_precision(&me->sht41, &me->temp, &me->hum);
 
 	if (ret != ESP_OK) {
-		*temp_comp = GIA_DEFAULT_COMPENSATION_TEMP;
-		*hum_comp = GIA_DEFAULT_COMPENSATION_HUM;
+		*temp_comp = SGIA_DEFAULT_COMPENSATION_TEMP;
+		*hum_comp = SGIA_DEFAULT_COMPENSATION_HUM;
 	}
 	else {
 		*temp_comp = (uint16_t)(me->temp + 45) * 65535 / 175;;

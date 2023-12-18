@@ -33,8 +33,8 @@
   */
 
 /* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef GIA_H_
-#define GIA_H_
+#ifndef SGIA_H_
+#define SGIA_H_
 
 #ifdef __cplusplus
 extern "C" {
@@ -65,25 +65,25 @@ typedef struct {
 	int32_t voc_index;
 	int32_t nox_index;
 	uint8_t nox_conditioning;
-} gia_t;
+} sgia_t;
 
 /* Exported variables --------------------------------------------------------*/
 
 /* Exported functions prototypes ---------------------------------------------*/
-esp_err_t gia_init(gia_t *const me, i2c_bus_t *i2c_bus);
+esp_err_t sgia_init(sgia_t *const me, i2c_bus_t *i2c_bus);
 
-void gia_get_temp_and_hum(gia_t *const me, float *temp, float *hum);
+void sgia_get_temp_and_hum(sgia_t *const me, float *temp, float *hum);
 
-void gia_get_raw_voc_and_nox(gia_t *const me, uint16_t *voc_raw, uint16_t *nox_raw);
+void sgia_get_raw_voc_and_nox(sgia_t *const me, uint16_t *voc_raw, uint16_t *nox_raw);
 
-void gia_get_index_voc_and_nox(gia_t *const me, int32_t *voc_index, int32_t *nox_index);
+void sgia_get_index_voc_and_nox(sgia_t *const me, int32_t *voc_index, int32_t *nox_index);
 
-esp_err_t gia_run(gia_t *const me);
+esp_err_t sgia_run(sgia_t *const me);
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif /* GIA_H_ */
+#endif /* SGIA_H_ */
 
 /***************************** END OF FILE ************************************/
