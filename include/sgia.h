@@ -70,14 +70,50 @@ typedef struct {
 /* Exported variables --------------------------------------------------------*/
 
 /* Exported functions prototypes ---------------------------------------------*/
-esp_err_t sgia_init(sgia_t *const me, i2c_bus_t *i2c_bus);
+/**
+ * @brief Function to initialize a SGIA instance
+ *
+ * @param me             : Pointer to a sgia_t structure
+ * @param i2c_bus_handle : Handle to I2C bus instance to add this device
+ *
+ * @return ESP_OK on success
+ */
+esp_err_t sgia_init(sgia_t *const me, i2c_master_bus_handle_t i2c_bus_handle);
 
+/**
+ * @brief Function to get the temperature and humidity values
+ *
+ * @param me   : Pointer to a sgia_t structure
+ * @param temp : Pointer to variable to store the temperature value in celcius
+ * @param hum  : Pointer to variable to store the humidity value
+ */
 void sgia_get_temp_and_hum(sgia_t *const me, float *temp, float *hum);
 
+/**
+ * @brief Function to get the VOC and NOx raw values
+ *
+ * @param me      : Pointer to a sgia_t structure
+ * @param voc_raw : Pointer to variable to store the VOC raw value
+ * @param nox_raw : Pointer to variable to store the NOx raw value
+ */
 void sgia_get_raw_voc_and_nox(sgia_t *const me, uint16_t *voc_raw, uint16_t *nox_raw);
 
+/**
+ * @brief Function to get the VOC and NOx index values
+ *
+ * @param me        : Pointer to a sgia_t structure
+ * @param voc_index : Pointer to variable to store the VOC index value
+ * @param nox_index : Pointer to variable to store the NOx index value
+ */
 void sgia_get_index_voc_and_nox(sgia_t *const me, int32_t *voc_index, int32_t *nox_index);
 
+/**
+ * @brief Function to run the SGIA algorithm process
+ *
+ * @param me : Pointer to a sgia_t structure
+ *
+ * @return ESP_OK on success
+ */
 esp_err_t sgia_run(sgia_t *const me);
 
 #ifdef __cplusplus
