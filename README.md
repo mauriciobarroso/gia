@@ -1,5 +1,5 @@
 # ESP-IDF SGIA (Sensirion Gas Index Algorithm) Component
-ESP-IDF component for Sensision Gas Index Algorithm based on [Sensirion Gas Index Algorithm](https://github.com/Sensirion/gas-index-algorithm)
+ESP-IDF component for Sensirion Gas Index Algorithm based on [Sensirion Gas Index Algorithm](https://github.com/Sensirion/gas-index-algorithm)
 
 ## Dependencies
 This component only works with [ESP-IDF v5.2](https://github.com/espressif/esp-idf/tree/release/v5.2) or higher.
